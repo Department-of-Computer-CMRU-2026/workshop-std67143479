@@ -2,9 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::redirect('/', '/login');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
@@ -15,7 +13,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('workshops', 'App\Http\Controllers\WorkshopController');
         Route::post('workshops/{workshop}/register', ['App\Http\Controllers\WorkshopController', 'register'])->name('workshops.register');
         Route::post('workshops/{workshop}/unregister', ['App\Http\Controllers\WorkshopController', 'unregister'])->name('workshops.unregister');
-        Route::get('admin/dashboard', 'App\Http\Controllers\AdminDashboardController')->name('admin.dashboard');    });
+        Route::get('admin/dashboard', 'App\Http\Controllers\AdminDashboardController')->name('admin.dashboard');
+    });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', ['App\Http\Controllers\ProfileController', 'edit'])->name('profile.edit');

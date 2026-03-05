@@ -82,9 +82,12 @@
                                             </summary>
                                             <div class="mt-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                                                 @forelse($workshop->participants as $participant)
-                                                    <div class="bg-white p-2 border rounded shadow-sm flex items-center justify-between">
-                                                        <span class="text-sm font-medium truncate">{{ $participant->name }}</span>
-                                                        <span class="text-[10px] text-gray-400 italic">ID: {{ $participant->id }}</span>
+                                                    <div class="bg-white p-2 border rounded shadow-sm flex flex-col justify-center">
+                                                        <div class="flex items-center justify-between w-full">
+                                                            <span class="text-sm font-medium truncate">{{ $participant->name }}</span>
+                                                            <span class="text-[10px] text-gray-400 italic">ID: {{ $participant->id }}</span>
+                                                        </div>
+                                                        <span class="text-xs text-gray-500 truncate mt-1">{{ $participant->email }}</span>
                                                     </div>
                                                 @empty
                                                     <p class="text-xs text-gray-400 italic py-2">No registrants yet.</p>

@@ -74,9 +74,9 @@
                                         </button>
                                     </form>
                                 @elseif($workshop->isFull())
-                                    <div class="bg-gray-300 text-gray-500 text-center font-bold py-3 px-4 rounded-lg cursor-not-allowed">
-                                        Workshop Full
-                                    </div>
+                                    <button disabled class="w-full bg-gray-200 text-gray-400 font-bold py-3 px-4 rounded-lg cursor-not-allowed border border-gray-300">
+                                        Registration Closed (เต็มแล้ว)
+                                    </button>
                                 @else
                                     <form action="{{ route('workshops.register', $workshop) }}" method="POST">
                                         @csrf
