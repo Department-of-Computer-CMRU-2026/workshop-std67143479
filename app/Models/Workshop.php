@@ -10,6 +10,7 @@ class Workshop extends Model
         'title',
         'description',
         'instructor',
+        'location',
         'max_seats',
         'scheduled_at',
         'image_url',

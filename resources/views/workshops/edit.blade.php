@@ -24,6 +24,12 @@
                         <x-input-error :messages="$errors->get('instructor')" class="mt-2" />
                     </div>
 
+                    <div>
+                        <x-input-label for="location" :value="__('Location')" />
+                        <x-text-input id="location" class="block mt-1 w-full" type="text" name="location" :value="old('location', $workshop->location)" required />
+                        <x-input-error :messages="$errors->get('location')" class="mt-2" />
+                    </div>
+
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <x-input-label for="max_seats" :value="__('Maximum Seats')" />

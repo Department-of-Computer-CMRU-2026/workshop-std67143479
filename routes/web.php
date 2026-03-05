@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\WorkshopController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -14,13 +12,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         }
         )->name('dashboard');
 
-        Route::resource('workshops', WorkshopController::class);
-        Route::post('workshops/{workshop}/register', [WorkshopController::class , 'register'])->name('workshops.register');    });
+        Route::resource('workshops', 'App\Http\Controllers\WorkshopController');
+        Route::post('workshops/{workshop}/register', ['App\Http\Controllers\WorkshopController', 'register'])->name('workshops.register');
+        Route::post('workshops/{workshop}/unregister', ['App\Http\Controllers\WorkshopController', 'unregister'])->name('workshops.unregister');
+        Route::get('admin/dashboard', 'App\Http\Controllers\AdminDashboardController')->name('admin.dashboard');    });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class , 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class , 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class , 'destroy'])->name('profile.destroy');
+    Route::get('/profile', ['App\Http\Controllers\ProfileController', 'edit'])->name('profile.edit');
+    Route::patch('/profile', ['App\Http\Controllers\ProfileController', 'update'])->name('profile.update');
+    Route::delete('/profile', ['App\Http\Controllers\ProfileController', 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__ . '/auth.php';

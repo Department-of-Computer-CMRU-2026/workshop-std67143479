@@ -56,6 +56,10 @@
                                     <p class="text-sm font-medium text-gray-800">{{ $workshop->instructor }}</p>
                                 </div>
                                 <div>
+                                    <p class="text-xs text-gray-400 uppercase font-bold">Location</p>
+                                    <p class="text-sm font-medium text-gray-800">{{ $workshop->location }}</p>
+                                </div>
+                                <div>
                                     <p class="text-xs text-gray-400 uppercase font-bold">Capacity</p>
                                     <p class="text-sm font-medium text-gray-800">{{ $workshop->max_seats }} participants total</p>
                                 </div>
@@ -63,9 +67,12 @@
 
                             <div class="mt-8">
                                 @if($isRegistered)
-                                    <div class="bg-blue-600 text-white text-center font-bold py-3 px-4 rounded-lg shadow cursor-default">
-                                        ✓ Already Registered
-                                    </div>
+                                    <form action="{{ route('workshops.unregister', $workshop) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="w-full bg-red-100 hover:bg-red-200 text-red-700 font-bold py-3 px-4 rounded-lg shadow-sm border border-red-200 transition duration-150 ease-in-out">
+                                            Cancel Registration
+                                        </button>
+                                    </form>
                                 @elseif($workshop->isFull())
                                     <div class="bg-gray-300 text-gray-500 text-center font-bold py-3 px-4 rounded-lg cursor-not-allowed">
                                         Workshop Full
@@ -92,19 +99,11 @@
                             Back to List
                         </a>
                         
-                        <div class="flex space-x-2">
-                             <a href="{{ route('workshops.edit', $workshop) }}" class="text-gray-600 hover:text-gray-900 text-sm">Edit</a>
-                             <form action="{{ route('workshops.destroy', $workshop) }}" method="POST" onsubmit="return confirm('Delete this workshop?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-900 text-sm">Delete</button>
-                             </form>
-                        </div>
                     </div>
                 </div>
             </div>
             
-            @if(Auth::user()->email === 'test@example.com' || true) {{-- Check if admin --}}
+            @if(Auth::user()->is_admin) {{-- Check if admin --}}
                 <div class="mt-8 bg-white shadow sm:rounded-lg p-8 border border-gray-200">
                      <h3 class="text-lg font-semibold text-gray-900 mb-4">Participant List ({{ $workshop->participants->count() }})</h3>
                      <ul class="divide-y divide-gray-200">

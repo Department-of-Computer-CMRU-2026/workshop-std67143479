@@ -23,6 +23,9 @@ class WorkshopController extends Controller
      */
     public function create()
     {
+        if (!Auth::user()->is_admin) {
+            abort(403);
+        }
         return view('workshops.create');
     }
 
@@ -31,10 +34,15 @@ class WorkshopController extends Controller
      */
     public function store(Request $request)
     {
+        if (!Auth::user()->is_admin) {
+            abort(403);
+        }
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'instructor' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
             'max_seats' => 'required|integer|min:1',
             'scheduled_at' => 'required|date',
             'image_url' => 'nullable|url',
@@ -60,6 +68,9 @@ class WorkshopController extends Controller
      */
     public function edit(Workshop $workshop)
     {
+        if (!Auth::user()->is_admin) {
+            abort(403);
+        }
         return view('workshops.edit', compact('workshop'));
     }
 
@@ -68,10 +79,15 @@ class WorkshopController extends Controller
      */
     public function update(Request $request, Workshop $workshop)
     {
+        if (!Auth::user()->is_admin) {
+            abort(403);
+        }
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'instructor' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
             'max_seats' => 'required|integer|min:1',
             'scheduled_at' => 'required|date',
             'image_url' => 'nullable|url',
@@ -87,6 +103,10 @@ class WorkshopController extends Controller
      */
     public function destroy(Workshop $workshop)
     {
+        if (!Auth::user()->is_admin) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $workshop->delete();
         return redirect()->route('workshops.index')->with('success', 'Workshop deleted successfully!');
     }
@@ -102,6 +122,10 @@ class WorkshopController extends Controller
             return back()->with('error', 'You are already registered for this workshop.');
         }
 
+        if ($user->registrations()->count() >= 3) {
+            return back()->with('error', 'You can only register for a maximum of 3 workshops.');
+        }
+
         if ($workshop->isFull()) {
             return back()->with('error', 'Sorry, this workshop is full.');
         }
@@ -112,5 +136,24 @@ class WorkshopController extends Controller
         ]);
 
         return back()->with('success', 'Successfully registered for the workshop!');
+    }
+
+    /**
+     * Unregister the authenticated user from the workshop.
+     */
+    public function unregister(Workshop $workshop)
+    {
+        $user = Auth::user();
+
+        $registration = Registration::where('workshop_id', $workshop->id)
+            ->where('user_id', $user->id)
+            ->first();
+
+        if ($registration) {
+            $registration->delete();
+            return back()->with('success', 'Successfully unregistered from the workshop.');
+        }
+
+        return back()->with('error', 'You are not registered for this workshop.');
     }
 }
