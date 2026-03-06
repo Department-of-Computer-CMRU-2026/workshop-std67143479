@@ -95,6 +95,22 @@ jobs:
         run: |
           docker compose -p ${{ env.STUDENT_NAME }} up -d --build --force-recreate
 
+      - name: Fix DB Password (Sync with .env)
+        run: |
+          DB_CONTAINER="${{ env.STUDENT_NAME }}-db"
+          DB_USER=$(grep '^DB_USERNAME=' .env.example | cut -d '=' -f2 | tr -d '\r ')
+          DB_PASS=$(grep '^DB_PASSWORD=' .env.example | cut -d '=' -f2 | tr -d '\r ')
+          DB_NAME=$(grep '^DB_DATABASE=' .env.example | cut -d '=' -f2 | tr -d '\r ')
+
+          # รอให้ DB Container พร้อม
+          echo "Waiting for DB to be ready..."
+          sleep 10
+
+          # อัปเดต password ใน Postgres ให้ตรงกับ .env.example (ไม่สูญเสียข้อมูล)
+          docker exec $DB_CONTAINER psql -U postgres -c "ALTER USER \"${DB_USER}\" WITH PASSWORD '${DB_PASS}';" 2>/dev/null || true
+          docker exec $DB_CONTAINER psql -U postgres -c "ALTER DATABASE \"${DB_NAME}\" OWNER TO \"${DB_USER}\";" 2>/dev/null || true
+          echo "DB credentials synced."
+
       - name: Laravel Post-Deploy
         run: |
           APP_CONTAINER="${{ env.STUDENT_NAME }}-app"
