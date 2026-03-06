@@ -118,7 +118,8 @@ class WorkshopController extends Controller
     {
         $user = Auth::user();
 
-        if ($workshop->participants->contains($user)) {
+        // Business Logic: Check if already registered
+        if ($workshop->participants()->where('users.id', $user->id)->exists()) {
             return back()->with('error', 'You are already registered for this workshop.');
         }
 
@@ -130,10 +131,20 @@ class WorkshopController extends Controller
             return back()->with('error', 'Sorry, this workshop is full.');
         }
 
-        Registration::create([
-            'workshop_id' => $workshop->id,
-            'user_id' => $user->id,
-        ]);
+        try {
+            // DB Constraint: Will throw QueryException if duplicate
+            Registration::create([
+                'workshop_id' => $workshop->id,
+                'user_id' => $user->id,
+            ]);
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            // If it's a unique constraint violation (SQLSTATE 23000 / 23505)
+            if ($e->getCode() == 23505 || $e->getCode() == 23000) {
+                return back()->with('error', 'You are already registered for this workshop.');
+            }
+            throw $e; // Re-throw other database exceptions
+        }
 
         return back()->with('success', 'Successfully registered for the workshop!');
     }
