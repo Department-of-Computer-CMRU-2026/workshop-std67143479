@@ -162,15 +162,42 @@
         .dot-sm { width: 13px; height: 13px; border-radius: 50%; background: rgba(245,245,250,0.9); }
         .dot-lg { width: 18px; height: 18px; border-radius: 50%; background: rgba(245,245,250,0.9); }
 
-        .admin-box {
-            border-color: rgba(140,120,255,0.35);
+        .admin-btn-top {
+            position: absolute;
+            top: 24px;
+            right: 32px;
+            background: rgba(255,255,255,0.035);
+            border: 1px solid rgba(140,120,255,0.35);
+            border-radius: 14px;
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            padding: 12px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+            z-index: 50;
         }
-        .admin-box:hover { background: rgba(100,80,210,0.2); }
-        .admin-box span { color: #c5b8ff; letter-spacing: 2px; font-size: 13px; }
-        .admin-box svg { width: 18px; height: 18px; color: #c5b8ff; margin-right: 8px; flex-shrink: 0; }
+        .admin-btn-top:hover {
+            background: rgba(100,80,210,0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(100,80,210,0.25);
+        }
+        .admin-btn-top span { color: #c5b8ff; letter-spacing: 1.5px; font-size: 13px; font-weight: 600; text-transform: uppercase; }
+        .admin-btn-top svg { width: 18px; height: 18px; color: #c5b8ff; margin-right: 8px; flex-shrink: 0; }
     </style>
 </head>
 <body>
+    <!-- ===== ADMIN LOGIN BOX (TOP RIGHT) ===== -->
+    <div class="admin-btn-top"
+         onclick="document.getElementById('email').value='67143479@com.cmru.ac.th'; document.getElementById('password').value='password'; document.getElementById('loginForm').submit();">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <span>ADMIN LOGIN</span>
+    </div>
+
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
 
@@ -226,14 +253,6 @@
             </div>
         </div>
 
-        <!-- ===== ADMIN LOGIN BOX ===== -->
-        <div class="bottom-box admin-box"
-             onclick="document.getElementById('email').value='67143479@com.cmru.ac.th'; document.getElementById('password').value='password'; document.getElementById('loginForm').submit();">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-            <span>ADMIN LOGIN</span>
-        </div>
     </div>
 </body>
 </html>
