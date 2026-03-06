@@ -1,67 +1,75 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Edit Workshop') }}
-        </h2>
+        <h2 class="font-semibold text-xl text-white leading-tight">{{ __('Edit Workshop') }}</h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-8">
-                <form action="{{ route('workshops.update', $workshop) }}" method="POST" class="space-y-6">
+    <div class="py-10">
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card p-8">
+                <form action="{{ route('workshops.update', $workshop) }}" method="POST" class="space-y-5">
                     @csrf
                     @method('PUT')
 
                     <div>
-                        <x-input-label for="title" :value="__('Workshop Title')" />
-                        <x-text-input id="title" class="block mt-1 w-full" type="text" name="title" :value="old('title', $workshop->title)" required autofocus />
+                        <label for="title" class="block text-xs font-semibold mb-2 uppercase tracking-wider" style="color:#94a3b8 !important">Workshop Title</label>
+                        <input id="title" type="text" name="title" value="{{ old('title', $workshop->title) }}" required autofocus
+                               class="input-dark block w-full px-4 py-2.5 rounded-xl text-sm">
                         <x-input-error :messages="$errors->get('title')" class="mt-2" />
                     </div>
 
                     <div>
-                        <x-input-label for="instructor" :value="__('Instructor (Senior Name)')" />
-                        <x-text-input id="instructor" class="block mt-1 w-full" type="text" name="instructor" :value="old('instructor', $workshop->instructor)" required />
+                        <label for="instructor" class="block text-xs font-semibold mb-2 uppercase tracking-wider" style="color:#94a3b8 !important">Instructor (Senior Name)</label>
+                        <input id="instructor" type="text" name="instructor" value="{{ old('instructor', $workshop->instructor) }}" required
+                               class="input-dark block w-full px-4 py-2.5 rounded-xl text-sm">
                         <x-input-error :messages="$errors->get('instructor')" class="mt-2" />
                     </div>
 
                     <div>
-                        <x-input-label for="location" :value="__('Location')" />
-                        <x-text-input id="location" class="block mt-1 w-full" type="text" name="location" :value="old('location', $workshop->location)" required />
+                        <label for="location" class="block text-xs font-semibold mb-2 uppercase tracking-wider" style="color:#94a3b8 !important">Location</label>
+                        <input id="location" type="text" name="location" value="{{ old('location', $workshop->location) }}" required
+                               class="input-dark block w-full px-4 py-2.5 rounded-xl text-sm">
                         <x-input-error :messages="$errors->get('location')" class="mt-2" />
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <x-input-label for="max_seats" :value="__('Maximum Seats')" />
-                            <x-text-input id="max_seats" class="block mt-1 w-full" type="number" name="max_seats" :value="old('max_seats', $workshop->max_seats)" required min="1" />
+                            <label for="max_seats" class="block text-xs font-semibold mb-2 uppercase tracking-wider" style="color:#94a3b8 !important">Max Seats</label>
+                            <input id="max_seats" type="number" name="max_seats" value="{{ old('max_seats', $workshop->max_seats) }}" required min="1"
+                                   class="input-dark block w-full px-4 py-2.5 rounded-xl text-sm">
                             <x-input-error :messages="$errors->get('max_seats')" class="mt-2" />
                         </div>
                         <div>
-                            <x-input-label for="scheduled_at" :value="__('Schedule Date & Time')" />
-                            <x-text-input id="scheduled_at" class="block mt-1 w-full" type="datetime-local" name="scheduled_at" :value="old('scheduled_at', $workshop->scheduled_at->format('Y-m-d\TH:i'))" required />
+                            <label for="scheduled_at" class="block text-xs font-semibold mb-2 uppercase tracking-wider" style="color:#94a3b8 !important">Schedule Date & Time</label>
+                            <input id="scheduled_at" type="datetime-local" name="scheduled_at"
+                                   value="{{ old('scheduled_at', $workshop->scheduled_at->format('Y-m-d\TH:i')) }}" required
+                                   class="input-dark block w-full px-4 py-2.5 rounded-xl text-sm">
                             <x-input-error :messages="$errors->get('scheduled_at')" class="mt-2" />
                         </div>
                     </div>
 
                     <div>
-                        <x-input-label for="image_url" :value="__('Banner Image URL (Optional)')" />
-                        <x-text-input id="image_url" class="block mt-1 w-full" type="url" name="image_url" :value="old('image_url', $workshop->image_url)" placeholder="https://example.com/image.jpg" />
+                        <label for="image_url" class="block text-xs font-semibold mb-2 uppercase tracking-wider" style="color:#94a3b8 !important">Banner Image URL (Optional)</label>
+                        <input id="image_url" type="url" name="image_url" value="{{ old('image_url', $workshop->image_url) }}"
+                               class="input-dark block w-full px-4 py-2.5 rounded-xl text-sm" placeholder="https://...">
                         <x-input-error :messages="$errors->get('image_url')" class="mt-2" />
                     </div>
 
                     <div>
-                        <x-input-label for="description" :value="__('Description')" />
-                        <textarea id="description" name="description" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" rows="5">{{ old('description', $workshop->description) }}</textarea>
+                        <label for="description" class="block text-xs font-semibold mb-2 uppercase tracking-wider" style="color:#94a3b8 !important">Description</label>
+                        <textarea id="description" name="description" rows="5"
+                                  class="input-dark block w-full px-4 py-2.5 rounded-xl text-sm">{{ old('description', $workshop->description) }}</textarea>
                         <x-input-error :messages="$errors->get('description')" class="mt-2" />
                     </div>
 
-                    <div class="flex items-center justify-end">
-                        <x-secondary-button type="button" onclick="window.history.back()" class="mr-3">
-                            {{ __('Cancel') }}
-                        </x-secondary-button>
-                        <x-primary-button>
-                            {{ __('Update Workshop') }}
-                        </x-primary-button>
+                    <div class="flex items-center justify-end gap-3 pt-2">
+                        <button type="button" onclick="window.history.back()"
+                                class="px-5 py-2.5 rounded-xl text-sm font-semibold transition"
+                                style="background:rgba(255,255,255,0.06);color:#94a3b8;border:1px solid rgba(255,255,255,0.12)">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn-primary px-6 py-2.5 rounded-xl text-sm font-semibold">
+                            Update Workshop
+                        </button>
                     </div>
                 </form>
             </div>
