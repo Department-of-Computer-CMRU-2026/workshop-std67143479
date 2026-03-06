@@ -68,6 +68,14 @@
                                 <td class="px-6 py-4 text-right text-sm font-medium space-x-3">
                                     <a href="{{ route('workshops.show', $workshop) }}" class="text-indigo-400 hover:text-indigo-300 transition">View</a>
                                     <a href="{{ route('workshops.edit', $workshop) }}" class="text-gray-400 hover:text-white transition">Edit</a>
+                                    
+                                    @if(Auth::user()->is_admin)
+                                        <form action="{{ route('workshops.destroy', $workshop) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this workshop?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-400 hover:text-red-300 transition font-medium">Delete</button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                             <!-- Participants sub-row -->
@@ -79,7 +87,7 @@
                                             PARTICIPANTS ({{ $workshop->participants->count() }})
                                         </summary>
                                         <div class="mt-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-                                            @forelse($workshop->participants as $participant)
+                                            @forelse ($workshop->participants as $participant)
                                                 <div class="rounded-lg p-3" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07)">
                                                     <div class="flex items-center justify-between">
                                                         <span class="text-sm font-medium text-white truncate">{{ $participant->name }}</span>
