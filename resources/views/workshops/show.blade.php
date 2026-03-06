@@ -92,13 +92,13 @@
                 </div>
             </div>
 
-            @if(Auth::user()->is_admin)
+            @if(Auth::check() && Auth::user()->is_admin)
                 <div class="glass-card mt-6 p-8">
                     <h3 class="text-sm text-indigo-300 uppercase tracking-widest font-semibold mb-4">
                         Participant List ({{ $workshop->participants->count() }})
                     </h3>
                     <ul class="divide-y" style="border-color:rgba(255,255,255,0.07)">
-                        @forelse($workshop->participants as $participant)
+                        @forelse ($workshop->participants as $participant)
                             <li class="py-3 flex justify-between items-center">
                                 <span class="text-white font-medium text-sm">{{ $participant->name }}</span>
                                 <span class="text-gray-400 text-xs">{{ $participant->email }}</span>
