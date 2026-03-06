@@ -52,14 +52,14 @@
         /* Avatar */
         .avatar {
             width: 96px; height: 96px;
-            background: #ced1d8;
+            background: transparent;
             border-radius: 50%;
             margin: 0 auto 32px;
-            display: flex; align-items: flex-end; justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             overflow: hidden;
-            box-shadow: 0 0 0 4px rgba(255,255,255,0.1);
+            box-shadow: none;
         }
-        .avatar svg { width: 80px; height: 80px; color: #7a7d87; }
+        .avatar img { width: 100%; height: 100%; object-fit: cover; }
 
         /* Error */
         .error-msg {
@@ -174,7 +174,7 @@
 
             <!-- Avatar -->
             <div class="avatar">
-                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                <img src="{{ asset('images/default-avatar.png') }}" alt="User Avatar">
             </div>
 
             @if ($errors->any())
